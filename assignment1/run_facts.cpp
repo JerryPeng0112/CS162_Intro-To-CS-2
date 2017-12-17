@@ -13,13 +13,13 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-	int check_arg = 0, state_num;
+	int state_num;
 	string filename, state_nums;
-	bool restart = true;
+	bool restart = true, check_arg = false;
 	do{
-		if(check_arg == 0){
+		if(!check_arg){
 			if(!is_valid_arguments(argv, argc)){
-				cout << "usage: exe -s # -f filename" << endl;
+				cout << "usage: -s # -f filename" << endl;
 				return 0;
 			}else{
 				state_nums = argv[2];
@@ -33,10 +33,10 @@ int main(int argc, char *argv[]){
 					filename = get_file();
 				}
 			}
-		}
-		if(check_arg != 0){
-			state_num = get_num();
+			check_arg = true;
+		} else {
 			filename = get_file();
+			state_num = get_num();
 		}
 		check_arg++;
 		cout << endl;

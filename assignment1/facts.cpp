@@ -104,7 +104,7 @@ int get_num(){
 	string num;
 	int numi;
 	while(1){
-		cout << "Please enter a positive number: ";
+		cout << "Please enter the number of state data to get from file: ";
 		getline(cin, num);
 		if(num[0] != '0'){
 			if(check_num(num)){
@@ -145,6 +145,7 @@ void get_info(int state_num, string filename){
 	int c = 0;
 	file.open(filename.c_str());
 	state *states = create_states(state_num);
+	cout << "===================== File data =====================" << endl;
 	for(int i = 0; i < state_num; i++){
 		get_state_data(states, i, file);
 		c++;
@@ -153,8 +154,8 @@ void get_info(int state_num, string filename){
 			break;
 		}
 	}
+	cout << endl << endl;
 	state_num = c;
-	cout << endl << "FILE READ" << endl;
 	print_stats(states, c);
 	delete_info(states, state_num);
 }
@@ -281,7 +282,7 @@ void state_pop(state *states, int num){
 			max = states[i].population;
 		}
 	}
-	cout << "The state with the largest population: " << states[count].name << ", " << states[count].population << endl;
+	cout << "1. The state with the largest population: " << endl << states[count].name << ", " << states[count].population << endl << endl;
 }
 
 /*********************************************************************
@@ -302,7 +303,7 @@ void county_pop(state *states, int num){
 			}
 		}
 	}
-	cout << "The county with the largest population: " << states[count_state].c[count_county].name << ", " << states[count_state].c[count_county].population << endl;
+	cout << "2. The county with the largest population: " << endl << states[count_state].c[count_county].name << ", " << states[count_state].c[count_county].population << endl;
 }
 
 /*********************************************************************
@@ -315,8 +316,9 @@ void county_pop(state *states, int num){
 void county_above_income(state *states, int num){
 	string input;
 	int income, count = 0;
+	cout << endl;
 	while(1){
-		cout << "Please enter a positive number: ";
+		cout << "Please enter a income threshold: ";
 		getline(cin, input);
 		if(input[0] != '0'){
 			if(check_num(input)){
@@ -325,17 +327,17 @@ void county_above_income(state *states, int num){
 			}
 		}
 	}
-	cout << "The counties with an income above a specific amount: " << endl;
+	cout << "3. The counties with an income above a specific amount: " << endl;
 	for(int i = 0; i < num; i++){
 		for(int j = 0; j < states[i].counties; j++){
 			if(states[i].c[j].avg_income > income){
 				count++;
-				cout << states[i].c[j].name << " ";
+				cout << states[i].c[j].name << " " << endl;
 			}
 		}
 	}
 	if(count == 0){
-		cout << "None";
+		cout << "None" << endl;
 	}
 	cout << endl;
 }
@@ -350,14 +352,14 @@ void county_above_income(state *states, int num){
 void avg_house_cost(state *states, int num){
 	float avg;
 	float total;
-	cout << "The average household cost for all counties in each state: " << endl;
+	cout << "4. The average household cost for all counties in each state: " << endl;
 	for(int i = 0; i < num; i++){
 		total = 0;
 		for(int j = 0; j < states[i].counties; j++){
 			total += states[i].c[j].avg_house;
 		}
 		avg = (total + 0.0)/states[i].counties;
-		cout << states[i].name << ": " << avg << " ";
+		cout << states[i].name << ": " << avg << " " << endl;
 	}
 	cout << endl;
 }
@@ -380,9 +382,9 @@ void sort_state_name(state *states, int num){
 			}
 		}
 	}
-	cout << "The states in sorted order by name (alphabetical order): " << endl;
+	cout << "5. The states in sorted order by name (alphabetical order): " << endl;
 	for(int i = 0; i < num; i++){
-		cout << states[i].name << " ";
+		cout << states[i].name << " " << endl;
 	}
 	cout << endl;
 }
@@ -405,9 +407,9 @@ void sort_state_pop(state *states, int num){
 			}
 		}
 	}
-	cout << "The states in sorted order by population (from large to small): " << endl;
+	cout << "6. The states in sorted order by population (from large to small): " << endl;
 	for(int i = 0; i < num; i++){
-		cout << states[i].name << " ";
+		cout << states[i].name << " " << endl;
 	}
 	cout << endl;
 }
@@ -432,11 +434,11 @@ void sort_county_pop(state *states, int num){
 			}
 		}
 	}
-	cout << "The counties within states sorted by population (from large to small): " << endl;
+	cout << "7. The counties within states sorted by population (from large to small): " << endl;
 	for(int i = 0; i < num; i++){
-		cout << states[i].name << ": ";
+		cout << states[i].name << ": " << endl;
 		for(int j = 0; j < states[i].counties; j++){
-			cout << states[i].c[j].name << " ";
+			cout << "\t" << states[i].c[j].name << " " << endl;
 		}
 		cout << endl;
 	}
@@ -462,11 +464,11 @@ void sort_county_name(state *states, int num){
 			}
 		}
 	}
-	cout << "The counties within states sorted by name (alphabetical order): " << endl;
+	cout << "8. The counties within states sorted by name (alphabetical order): " << endl;
 	for(int i = 0; i < num; i++){
-		cout << states[i].name << ": ";
+		cout << states[i].name << ": " << endl;
 		for(int j = 0; j < states[i].counties; j++){
-			cout << states[i].c[j].name << " ";
+			cout << "\t" << states[i].c[j].name << " " << endl;
 		}
 		cout << endl;
 	}

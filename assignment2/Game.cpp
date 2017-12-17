@@ -15,7 +15,7 @@ Game::Game(){
 
 int Game::get_player(){
     int c = 0;
-    std::cout << std::endl << "How many players are involved in this blackjack tournament? (Max 8 players): " << std::endl;
+    std::cout << std::endl << "How many players are playing this blackjack game? (Max 8 players): " << std::endl;
     while(1){
         c = get_num();
         if(c > 8){
@@ -45,7 +45,7 @@ int Game::get_money(){
 bool Game::check_quit(){
     int zero_count = 0;
     for(int i = 0; i < num_players; i++){
-        cout << "-----------| Player stats |-----------" << std::endl;
+        std::cout << "-----------| Player stats |-----------" << std::endl;
         std::cout << players[i].get_name() << ": $" << players[i].get_playing_total() << std::endl;
         if(players[i].get_playing_total() > 4 * init_money){
             std::cout << players[i].get_name() << " WINS !!! CONGRATULATION !" << std::endl;
@@ -59,7 +59,7 @@ bool Game::check_quit(){
     }
 
     if(num_players == zero_count){
-        std::cout << "Eveyone bankrupts" << endl;
+        std::cout << "Eveyone bankrupts" << std::endl;
         std::cout << "-----------| Game Over |-----------" << std::endl;
         return true;
     }

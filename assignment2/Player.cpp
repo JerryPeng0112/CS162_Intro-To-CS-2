@@ -72,7 +72,6 @@ void Player::split(Deck &deck){
     delete [] card_total;
     card_total = temp_ct;
     set_card_total();
-    std::cout << "Hello";
     temp_b[0] = bet[0] / 2;
     temp_b[1] = bet[0] / 2;
     delete [] bet;

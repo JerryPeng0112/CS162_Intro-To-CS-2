@@ -19,6 +19,19 @@ This program requires command line arguments:
 Example: `./facts -s 2 -f test.txt` means read 2 state data from test.txt.
 
 ## Assignment 2 - Blackjack Game
+**To Compile:** `make`  
+**To Run:** `./blackjack`  
+
+This program is a blackjack tournament game. The first program where I used classes in C++.
+
+This blackjack tournament supports up to 8 players. In each turn, a player can do the following actions:
+1. Hit
+2. Stay
+3. Double Down (If the player's dealt card total is between 9 and 11)
+4. Split (If the player's dealt 2 cards have the same number)
+
+If a player's game total is over 4 times the initial amount of money at the start of game, the player wins the game.
+If all players go bankrupt, the game is over and no one wins.
 
 ## Assignment 3 - Zoo Tycoon Game
 

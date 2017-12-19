@@ -156,7 +156,7 @@ void Player::print_player(const int output){
     set_card_total();
     if(hand_total == 1){
         p_hand->print_hand();
-        std::cout << " Total: " << card_total[0];
+        std::cout << std::endl << " Total: " << card_total[0];
         if(card_total[0] > 21) std::cout << " BUST !";
         std::cout << std::endl;
     }else{

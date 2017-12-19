@@ -21,6 +21,7 @@ int Game::get_player(){
         if(c > 8){
             std::cout << "Value too big !! MAX 8 PLAYERS !!" << std::endl;
         }else{
+            std::cout << std::endl;
             return c;
         }
     }
@@ -44,8 +45,8 @@ int Game::get_money(){
 
 bool Game::check_quit(){
     int zero_count = 0;
+    std::cout << "-----------| Player stats |-----------" << std::endl;
     for(int i = 0; i < num_players; i++){
-        std::cout << "-----------| Player stats |-----------" << std::endl;
         std::cout << players[i].get_name() << ": $" << players[i].get_playing_total() << std::endl;
         if(players[i].get_playing_total() > 4 * init_money){
             std::cout << players[i].get_name() << " WINS !!! CONGRATULATION !" << std::endl;
@@ -117,13 +118,14 @@ void Game::run_game(){
 
 void Game::round(){
         bet();
+        deal();
         user_choice();
         clear_line();
-        std::cout << "--------| Round Result |--------" << std::endl;
-        deal_dealer();
+        std::cout << "--------| Last Round Result |--------" << std::endl;
         calculate_money();
         print_result();
-        std::cout << "--------| Round Over |--------" << std::endl;
+        deal_dealer();
+        std::cout << std::endl << std::endl;
 }
 
 void Game::bet(){
@@ -141,13 +143,12 @@ void Game::bet(){
                     }
                     players[i].set_bet(num);
                     break;
-                }else if(num < 2) std::cout << "Jimosh: \"Come on, you afraid of losing all your money? \"" << std::endl;
-                else std::cout << "You don't have enough money !" << std::endl << "Jimosh: \"I would have lend you some, but I need money to travel too HAHAHA\"" << std::endl << std::endl;
+                }else if(num < 2) std::cout << "Minimum bet is $2" << std::endl;
+                else std::cout << "You don't have enough money !" << std::endl;
             }
         }
     }
     std::cout << game_dealer.get_d_hand()->get_num_cards() << std::endl;
-    deal();
 }
 
 void Game::deal(){
@@ -173,7 +174,7 @@ void Game::print_deal_stat(){
 void Game::user_choice(){
     int num;
     int iter;
-    bool choice[3] = {false, false, false};
+    bool choice[2] = {false, false};
     for(int i = 0; i < num_players; i++){
         if(players[i].get_playing_total() != 0){
             iter = 1;
@@ -182,7 +183,7 @@ void Game::user_choice(){
             player_banner(i);
             players[i].print_player(1);
             while(players[i].get_card_total()[0] < 21 && players[i].get_playing_total() != 0){
-                for(int j = 0; j < 3; j++){
+                for(int j = 0; j < 2; j++){
                     choice[j] = false;
                 }
                 num = get_user_choice(iter, i, choice);
@@ -199,9 +200,6 @@ void Game::user_choice(){
                 }else if(players[i].get_playing_total() - players[i].get_bet()[0] >= 2 && var_choice(choice, num) == 1){
                     double_down(i, 0);
                     break;
-                }
-                else if(var_choice(choice, num) == 2){
-                    taunt(i);
                 }
                 if(players[i].get_card_total()[0] == 21) std::cout << "You have a BLACKJACK !!!" << std::endl;
             }
@@ -222,10 +220,6 @@ int Game::get_user_choice(const int iter, const int index, bool choice[]){
         if(iter == 1 && players[index].get_card_total()[0] >= 9 && players[index].get_card_total()[0] <= 11){
             std::cout << "(" << ++count << ") Double Down ";
             choice[1] = true;
-        }
-        if(players[index].get_playing_total() != 0){
-            std::cout << "(" << ++count << ") Taunt the dealer (For your own safety)";
-            choice[2] = true;
         }
         std::cout << std::endl;
         num = get_num();
@@ -271,16 +265,15 @@ void Game::split(const int index){
         while(players[index].get_card_total()[i] < 21 && players[index].get_playing_total() != 0){
             num = 0;
 
-            std::cout << "(1) Hit (2) Stay (3) Taunt ";
+            std::cout << "(1) Hit (2) Stay";
             if(iter == 1 && players[index].get_card_total()[i] >= 9 && players[index].get_card_total()[i] <= 11 && players[index].get_playing_total() - total_bet(index) >= 2){
-                std::cout << "(4) Double Down";
+                std::cout << "(3) Double Down";
                 dd = true;
             }
             std::cout << std::endl;
             num = get_split_user_choice(dd);
             if(num == 1) hit(index, i, true);
             else if(num == 2) break;
-            else if(num == 3) taunt(index);
             else{double_down(index, i); break;}
             iter++;
             dd = false;
@@ -312,13 +305,13 @@ int Game::get_split_user_choice(const bool dd){
 void Game::double_down(const int index, const int hand_index){
     int num;
     while(1){
-        std::cout << "How much additional bet do you want to add? (no more than original bet)): " << std::endl;
+        std::cout << "How much additional bet do you want to add? (no more than original bet: " << players[index].get_bet()[0] << ")): " << std::endl;
         num = get_num();
         if(num > players[index].get_bet()[hand_index]){
-            std::cout << "You cannot add more than your original bet !" << std::endl << "Jimosh: \"Damn, your greedy !\"" << std::endl;
+            std::cout << "You cannot add more than your original bet !" << std::endl;
         }
         else if(num < 2){
-            std::cout << "Too less bet, please bet at least 2 dollars !" << std::endl << "Jimosh: \"If you want to double down, put ur money down !\"" << std::endl;
+            std::cout << "Please bet at least 2 dollars !" << std::endl;
         }else{
             if(num % 2 != 0){
                 std::cout << "One dollar is returned to make the bet even !" << std::endl;
@@ -330,26 +323,6 @@ void Game::double_down(const int index, const int hand_index){
     }
     hit(index, hand_index, true);
     if(players[index].get_card_total()[hand_index] == 21) std::cout << "You have a BLACKJACK !!!" << std::endl;
-}
-
-void Game::taunt(const int index){
-    std::string line;
-    int random = rand() % 3;
-    players[index].reduce_taunt();
-    std::cout << std::endl;
-    if(players[index].get_taunt() == 2){
-        std::cout << "You: \"" << player_taunt[random] << "\"" << std::endl << "Jimosh: \"" << dealer_counter_1[random] << "\"" << std::endl;
-    }else if(players[index].get_taunt() == 1){
-        std::cout << "You: \"" << player_taunt[random] << "\"" << std::endl << "Jimosh: \"" << dealer_counter_2[0] << "\"" << std::endl;
-    }else if(players[index].get_taunt() == 0){
-        std::cout << "You: \"" << player_taunt[random] << "\"" << std::endl << "Jimosh: \"" << dealer_counter_3[0] << "\"" << std::endl;
-    }else{
-        players[index].zero_playing_total();
-        std::cout << "You are killed by Jimosh, and he took all your money !" << std::endl << "Jimosh: \"Now If You Don't Want to End Up Like this Person," << std::endl << " Shut Your Mouth Up !!!!\"" << std::endl;
-        std::cout << "Now, type anything you want to say to your family before you die: " << std::endl;
-        getline(std::cin, line);
-
-    }
 }
 
 void Game::deal_dealer(){
@@ -371,7 +344,7 @@ void Game::calculate_money(){
 
 void Game::print_result(){
     for(int i = 0; i < num_players; i++){
-        std::cout << "----------------------------------------" << std::endl;
+        std::cout << std::endl;
         std::cout << players[i].get_name() << ": ";
         if(players[i].get_playing_total() != 0){
             if(players[i].get_hand_total() == 1){
@@ -390,10 +363,10 @@ void Game::print_result(){
                 std::cout << std::endl << "          Playing total: " << players[i].get_playing_total() << std::endl;
             }
         }else{
-            std::cout << players[i].get_name() << " is out..." << std::endl;
+            std::cout << players[i].get_name() << " lost." << std::endl;
         }
     }
-    std::cout << "----------------------------------------" << std::endl;
+    std::cout << std::endl << std::endl;
 }
 
 void Game::print_status(const int player_card_total){

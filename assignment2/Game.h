@@ -50,7 +50,6 @@ public:
     int total_bet(const int); // Get total bet for split
     int get_split_user_choice(const bool); // Check for user split option
     void double_down(const int, const int); // User double down
-    void taunt(const int); // User taunt dealer
     void deal_dealer(); // Deal card to dealer
     void calculate_money(); // Calculate money
     void print_result(); // Print the result

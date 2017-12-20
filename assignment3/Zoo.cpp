@@ -54,18 +54,18 @@ void Zoo::print_start_screen(){
               << "|                  to                  |" << std::endl
               << "|           --~ Zoo Tycoon ~--         |" << std::endl
               << "|                                      |" << std::endl
-              << "|______________________________________|" << std::endl << std::endl;
-    std::cout << "This is the wonderland of animals, " << std::endl
+              << "|______________________________________|" << std::endl << std::endl
+              << "This is the wonderland of animals, " << std::endl
               << "Where the animals grows one year older," << std::endl
               << "Everyday...." << std::endl << std::endl
               << "At the start, You can purchase: " << std::endl
-              << "Tiger, Polar Bear, and Penguin" << std::endl << std::endl
+              << "Tigers, Polar Bears, and Penguins" << std::endl << std::endl
               << "Feed type: cheap, Generic, Premium" << std::endl
               << "They each cost: $10, $20, $40"<< std::endl << std::endl
-              << "You have to buy an Aquarium to have orca !" << std::endl
+              << "You have to buy an Aquarium to have orca!" << std::endl
               << "The Aquarium costs 150,000 dollars" << std::endl
-              << "And takes 5 days to construct !"<< std::endl << std::endl
-              << "You have $100,000, now Go !" << std::endl << std::endl;
+              << "And takes 5 days to construct!"<< std::endl << std::endl
+              << "You have $100,000, good luck!" << std::endl << std::endl;
 }
 
 /*********************************************************************

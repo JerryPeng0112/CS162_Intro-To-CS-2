@@ -22,7 +22,7 @@ Example: `./facts -s 2 -f test.txt` means read 2 state data from test.txt.
 **To Compile:** `make`  
 **To Run:** `./blackjack`  
 
-This program is a blackjack tournament game. The first program where I used classes in C++.
+This program is a blackjack tournament game. The first program where I used classes and objects in C++.
 
 This blackjack tournament supports up to 8 players. In each turn, a player can do the following actions:
 1. Hit
@@ -34,8 +34,26 @@ If a player's game total is over 4 times the initial amount of money at the star
 If all players go bankrupt, the game is over and no one wins.
 
 ## Assignment 3 - Zoo Tycoon Game
+**To Compile:** `make`  
+**To Run:** `./zoo`  
+
+This game is the second assignment to use classes and objects.
+
+In this zoo tycoon game, the player owns the zoo. Each animals have different cost, number of babies, food cost, and payoff from visitors.
+
+Each turn is a day, and animals turn adult when they are 3 days old. After each day, the following event can happen:
+1. A sickness occurs in the zoo: the player will be asked which animal to be saved, but the animal will still die due to severe sickness.
+2. A boom in zoo attendance: each tiger generates bonus payoff, 250-500.
+3. A baby animal is born: the player will be asked which animal will have babies. The baby will have age of 0 days.
+4. Nothing happens.
+
+The player can unlock legendary animal, the orcas, by building an aquarium to host the animals.
 
 ## Assignment 4 - Hunt the Wumpus Game
+**To Compile:** `make`  
+**To Run:** `./wumpus -s #` where "#" needs to be between 4 and 12.  
+
+This
 
 ## Assignment 5 - Doubly Linked List
 

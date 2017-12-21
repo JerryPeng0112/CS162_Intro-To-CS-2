@@ -36,9 +36,7 @@ Game::Game(int side){
             }while(not_playable());
         }
         //print_hidden_map();
-        if(!prompt_ai()){
-            run_game();
-        }
+        run_game();
         if(end_game()){
             break;
         }
@@ -156,7 +154,7 @@ void Game::print_hidden_map(){
     for(int i = 0; i < side; i++) std::cout << "--";
     std::cout << "-" << std::endl;
     for(int i = 1; i <= side; i++){
-        for(int j = 1; j <= side; j++){
+        for(int j = 1; j <= side; j++){ 
             std::cout << "|";
             if(i == user_row && j == user_col) std::cout << "U";
             else if(i == wumpus_row && j == wumpus_col) std::cout << "W";
@@ -194,6 +192,7 @@ void Game::print_map(){
         for(int j = 1; j <= side; j++) std::cout << "--";
         std::cout << "-" << std::endl;
     }
+    std::cout << std::endl;
     std::cout << "\"@\" = Your Position | \"#\" = Dead Wumpus" <<
     std::endl << "\"!\" = Found Gold    | \"~\" = Found Bat" << std::endl << std::endl;
 }
@@ -218,9 +217,7 @@ void Game::run_game(){
         }
         print_arrow_state();
         encounter();
-        std::cout << std::endl;
         percept();
-        std::cout << std::endl;
         round();
     }
 }
@@ -255,9 +252,9 @@ void Game::print_arrow_state(){
 ** Post-Conditions: game state changed
 *********************************************************************/
 void Game::encounter(){ // for bat and gold
-    std::cout << "|------ Room Event ------|" << std::endl;
     int row, col;
     if(rooms[user_row][user_col].get_has_event()){
+        std::cout << "|------ Room Event ------|" << std::endl;
         if(rooms[user_row][user_col].get_event()->get_event_type() == 2){
             rooms[user_row][user_col].get_event()->encounter();
             while(1){
@@ -273,6 +270,7 @@ void Game::encounter(){ // for bat and gold
             has_gold = true;
             rooms[user_row][user_col].get_event()->encounter();
         }
+        std::cout << std::endl;
     }
 }
 
@@ -317,12 +315,18 @@ void Game::get_room(){
 ** Post-Conditions: none
 *********************************************************************/
 void Game::percept(){
-    std::cout << "|------ Percept ------|" << std::endl;
+    int count = 1;
     for(int i = user_row - 1; i <= user_row + 1; i++){
         for(int j = user_col - 1; j <= user_col + 1; j++){
             if(rooms[i][j].get_has_event() && ((i == user_row + 1 && j == user_col) || (i == user_row - 1 && j == user_col) || (i == user_row && j == user_col + 1) || (i == user_row && j == user_col - 1))){
-                if(!(rooms[i][j].get_event()->get_event_type() == 1 && wumpus_dead) && !(rooms[i][j].get_event()->get_event_type() == 4 && has_gold))
-                rooms[i][j].get_event()->percept();
+                if(!(rooms[i][j].get_event()->get_event_type() == 1 && wumpus_dead) && !(rooms[i][j].get_event()->get_event_type() == 4 && has_gold)) {
+                    if (count) {
+                        std::cout << "|------ Percept ------|" << std::endl;
+                        count--;
+                    }
+                    rooms[i][j].get_event()->percept();
+                    std::cout << std::endl;
+                }
             }
         }
     }
@@ -358,12 +362,14 @@ void Game::move(){
     question = "Which room do you want to move to? \n";
     for(int i = 0; i < 4; i++){
         if(adjacent_room[i] != 0){
-            if(i == 0) question += "[Up] ";
-            else if(i == 1) question += "[Down] ";
-            else if(i == 2) question += "[Left] ";
-            else question += "[Right] ";
             tostring(room_num, adjacent_room[i]);
+            question += "(";
             question += room_num;
+            question += ")";
+            if(i == 0) question += " Up";
+            else if(i == 1) question += " Down";
+            else if(i == 2) question += " Left";
+            else question += " Right";
             question += " ";
         }
     }
@@ -384,17 +390,26 @@ void Game::move(){
 *********************************************************************/
 void Game::determine_adjacent(){
     // up down left right
-    int room = (user_row - 1) * side + user_col;
-    if(user_row != 1) adjacent_room[0] = room - side;
-    else adjacent_room[0] = 0;
-    if(user_row != side) adjacent_room[1] = room + side;
-    else adjacent_room[1] = 0;
-    if(user_col != 1) adjacent_room[2] = room - 1;
-    else adjacent_room[2] = 0;
-    if(user_col != side) adjacent_room[3] = room + 1;
-    else adjacent_room[3] = 0;
-    for(int i = 0; i < 4; i++){
+    int count = 1;
+    if(user_row != 1) {
+        adjacent_room[0] = count;
+        count++;
     }
+    else adjacent_room[0] = 0;
+    if(user_row != side) {
+        adjacent_room[1] = count;
+        count++;
+    }
+    else adjacent_room[1] = 0;
+    if(user_col != 1) {
+        adjacent_room[2] = count;
+        count++;
+    }
+    else adjacent_room[2] = 0;
+    if(user_col != side) {
+        adjacent_room[3] = count;
+    }
+    else adjacent_room[3] = 0;
 }
 
 /*********************************************************************
@@ -589,10 +604,10 @@ void Game::print_welcome_message(){
               << "You went on an adventure, and it might cost you your life" << std::endl
               << "You slip down a rope into a cave" << std::endl
               << "Now your objective is to: " << std::endl
-              << "    (1) Find the chest of gold" << std::endl
-              << "    (2) Kill the Wumpus using your arrow" << std::endl
-              << "    (3) Find your way back to your rope to escape" << std::endl
-              << "Use your ability to percept your surroundings !" << std::endl
+              << "    --> Find the chest of gold" << std::endl
+              << "    --> Kill the Wumpus using your arrow" << std::endl
+              << "    --> Find your way back to your rope to escape" << std::endl
+              << "Use your \"percept\" ability to sense your surroundings !" << std::endl
               << "Good luck and hope you don't get eaten !" << std::endl
               << std::endl;
 }
@@ -813,56 +828,3 @@ Game::~Game(){
     delete [] board;
     delete [] rooms;
 }
-
-bool Game::prompt_ai(){
-    int choice, i = 0;
-    choice = prompt("---( Warning ! You are responsible for your loss ! )---\nWould you like the to test out AI? (1) Yes (2) No", 1, 2);
-    if(choice == 1){
-        /*AI bot(side);
-        int AI_percept[4];
-        int AI_fire_arrow = 0;
-        while(1){
-            if(wumpus_dead && i == 0){
-                std::cout << "The Evil, Deadly Wumpus' heart was Pierced by you arrow\nThe Wumpus lets out a loud groan, and collapsed..." << std::endl;
-                if(!has_gold) std::cout << "Get the gold and leave before another monster strikes !" << std::endl;
-                else std::cout << "Find your way back to where the rope was !" << std::endl;
-                std::cout << std::endl;
-                i++;
-            }
-            for(int i = 0; i < 4; i++){
-                AI_percept[i] = 0;
-            }
-            encounter();
-            ai_percept(AI_percept);
-            output = bot.run(AI_percept, user_row, user_col);
-            // 0 nothing, 1-4 arrow direction: up down left right, 6 cannot solve
-            shoot_arrow(output);
-            if(ai_game_over(output)){
-                if(output != 6)
-                cout << "__________________________________" << std::endl
-                     << "|                                |" << std::endl
-                     << "|         CONGRATULATION         |" << std::endl
-                     << "|    JERRRYYYYYYY U R THE BEST   |" << std::endl
-                     << "|________________________________|" << std::endl;
-                else{
-                    cout << "|------> AI failed <------|" << std::endl;
-                }
-            }
-        }*/
-        return true;
-    }
-    return false;
-}
-
-/*void ai_percept(int percept[]){
-    std::cout << "|------ Percept ------|" << std::endl;
-    for(int i = user_row - 1; i <= user_row + 1; i++){
-        for(int j = user_col - 1; j <= user_col + 1; j++){
-            if(rooms[i][j].get_has_event() && ((i == user_row + 1 && j == user_col) || (i == user_row - 1 && j == user_col) || (i == user_row && j == user_col + 1) || (i == user_row && j == user_col - 1))){
-                if(!(rooms[i][j].get_event()->get_event_type() == 1 && wumpus_dead) && !(rooms[i][j].get_event()->get_event_type() == 4 && has_gold))
-                AI_percept[rooms[i][j].get_event()->get_event_type() - 1]++;
-                rooms[i][j].get_event()->percept();
-            }
-        }
-    }
-}*/

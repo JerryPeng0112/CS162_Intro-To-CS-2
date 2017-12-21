@@ -53,12 +53,43 @@ The player can unlock legendary animal, the orcas, by building an aquarium to ho
 **To Compile:** `make`  
 **To Run:** `./wumpus -s #` where "#" needs to be between 4 and 12.  
 
-This game
+This game is called Hunt the Wumpus. 
+
+At the start of the game, the player is placed is randomly placed in a room in a cave grid. The cave grid is consisted of rooms. Each room can contain one or no event. The following are the event types:
+
+1. Wumpus
+2. Pits
+3. Bats
+4. Gold
+
+The goal of the game is to acquire the gold, kill the Wumpus with your arrows, and go back to starting position to exit the cave.
+
+Each turn, the player can either move, or fire an arrow. 
+
+When the player moves to a new room, the player can sense surrounding rooms (rooms directly adjacent to the room) using their "percept" ability; this means the player will be notified if any events are present in the surrounding rooms. 
+
+If the player fires an arrow, the player can choose which direction to shoot the arrow at. The arrow can travel 3 rooms, or less if it hits a wall (edge of the grid). If the arrow hits Wumpus, the Wumpus is killed. Otherwise, the Wumpus will be startled by the sound of the arrow and has 75% chance of moving to a different room. The player only carries 3 arrows, so if all the arrows are used up and the Wumpus is not killed, the game is over.
+
+If the player goes to a room where Wumpus is, the player loses.  
+If the player goes to a room where there is a pit, the player falls into the pit and die.  
+If the player goes to a room where there is a bat, the player will be carried by the bat, and randomly dropped to a different room.  
+If the player goes to a room where there is gold, the player will pick up the gold. The gold can only be copied once.  
 
 ## Assignment 5 - Doubly Linked List
+**To Compile:** `gcc list.c test_list.c -o list`  
+**To Run:** `./list`  
+
+This program includes an implementation of a doubly-linked list.
+
+The program test the doubly linked list by first asking for the data text. An example text file `list.txt` is included.
 
 ## Final Assignment - Sorting Algorithms
+**To Compile:** `gcc sorting.c -o sort`  
+**To Run:** `./sort`  
+
+`gen.cpp` is used for generating sorted or randonmized numbers. The generated numbers are copied into files. 
+`sorting.c` is a program that takes in a text file with numbers, and sorts it, while timing the operation.
 
 ## Labs - miscellaneous
 
-These labs are used to aid learning concepts of programming in C++
+These labs are used to aid learning concepts of programming in C++, including structs, classes, objects, inheritance, and polymorphism.

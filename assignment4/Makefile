@@ -1,5 +1,5 @@
-wumpus: Gold.o Pit.o Bat.o Wumpus.o Events.o Room.o Game.o AI.o driver.o
-	g++ Gold.o Pit.o Bat.o Wumpus.o Events.o Room.o Game.o AI.o driver.o -o wumpus
+wumpus: Gold.o Pit.o Bat.o Wumpus.o Events.o Room.o Game.o driver.o
+	g++ Gold.o Pit.o Bat.o Wumpus.o Events.o Room.o Game.o driver.o -o wumpus
 Gold.o: Gold.cpp
 	g++ -c Gold.cpp
 Pit.o: Pit.cpp
@@ -14,8 +14,6 @@ Room.o: Room.cpp
 	g++ -c Room.cpp
 Game.o: Game.cpp
 	g++ -c Game.cpp
-AI.o: AI.cpp
-	g++ -c AI.cpp
 driver.o: driver.cpp
 	g++ -c driver.cpp
 clean:

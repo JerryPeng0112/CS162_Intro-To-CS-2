@@ -53,7 +53,7 @@ The player can unlock legendary animal, the orcas, by building an aquarium to ho
 **To Compile:** `make`  
 **To Run:** `./wumpus -s #` where "#" needs to be between 4 and 12.  
 
-This
+This game
 
 ## Assignment 5 - Doubly Linked List
 
